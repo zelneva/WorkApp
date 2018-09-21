@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<VBox prefHeight="500.0" prefWidth="700.0"
+      xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2"
+      fx:controller="controllers.CategoryController" >
+    <children>
+        <AnchorPane prefHeight="90" prefWidth="600.0" styleClass="component__toolbar">
+
+            <Button fx:id="update" layoutX="10.0" layoutY="10.0" text="Обновить" contentDisplay="CENTER"/>
+
+        </AnchorPane>
+    <TableView fx:id="tableCategory" prefHeight="470.0" prefWidth="600.0" GridPane.rowIndex="1">
+        <columns>
+            <TableColumn fx:id="name" prefWidth="500.0" text="Название"/>
+            <TableColumn fx:id="percent" prefWidth="200.0" text="Процент"/>
+        </columns>
+    </TableView>
+    </children>
+</VBox>
+
+        <!---->
