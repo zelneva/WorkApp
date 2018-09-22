@@ -6,8 +6,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="500.0" prefWidth="700.0">
+<VBox
+      xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2"
+      fx:controller="controllers.EmployeeController" >
+    <children>
+        <AnchorPane prefHeight="90"  styleClass="component__toolbar">
 
-</AnchorPane>
+            <Button fx:id="update" layoutX="10.0" layoutY="10.0" text="Обновить" contentDisplay="CENTER"/>
+
+        </AnchorPane>
+        <TableView fx:id="tableEmployee" prefHeight="470.0"  GridPane.rowIndex="1">
+            <columns>
+                <TableColumn fx:id="last_name" prefWidth="150.0" text="Фамилия"/>
+                <TableColumn fx:id="first_name" prefWidth="150.0" text="Имя"/>
+                <TableColumn fx:id="middle_name" prefWidth="150.0" text="Отчество"/>
+                <TableColumn fx:id="position" prefWidth="200.0" text="Должность"/>
+                <TableColumn fx:id="salary" prefWidth="50.0" text="Зарплата"/>
+                <TableColumn fx:id="percent" prefWidth="50.0" text="Процент за переработки"/>
+                <TableColumn fx:id="department" prefWidth="200.0" text="Отдел"/>
+                <TableColumn fx:id="subdivision" prefWidth="300.0" text="Подразделение"/>
+            </columns>
+        </TableView>
+    </children>
+</VBox>
+
