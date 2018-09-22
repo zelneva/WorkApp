@@ -19,7 +19,6 @@ public class PositionController {
     @FXML
     private TableColumn<Position, String> name;
 
-
     @FXML
     private Button update;
 

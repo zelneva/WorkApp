@@ -3,8 +3,6 @@ package controllers;
 import dao.CategoryDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -37,7 +35,7 @@ public class CategoryController {
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         percent.setCellValueFactory(new PropertyValueFactory<Category, Integer>("percent"));
 
-        update.setOnAction((EventHandler<ActionEvent>) event -> {
+        update.setOnAction(event -> {
             try {
                 categoriesData.clear();
                 categoriesData.addAll(c.findCategory());
