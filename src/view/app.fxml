@@ -13,16 +13,16 @@ fx:controller="controllers.Controller">
         <fx:include source="category.fxml" />
     </Tab>
     <Tab text="Подразделения">
-        <fx:include source="department.fxml" />
+        <fx:include source="subdivision.fxml" />
     </Tab>
     <Tab text="Отделы">
-        <fx:include source="subdivision.fxml" />
+        <fx:include source="department.fxml" />
     </Tab>
     <Tab text="Должность">
-        <fx:include source="subdivision.fxml" />
+        <fx:include source="position.fxml" />
     </Tab>
     <Tab text="Работники">
-        <fx:include source="subdivision.fxml" />
+        <fx:include source="employee.fxml" />
     </Tab>
 
 </TabPane>
