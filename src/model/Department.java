@@ -1,5 +1,7 @@
 package model;
 
+
+//Отделы
 public class Department {
 
     private Long id;

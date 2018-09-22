@@ -3,25 +3,25 @@ package dao;
 import DB.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Department;
+import model.Subdivision;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DepartmentDAO {
+public class SubdivisionDAO {
 
     private static final String SELECT
-            = "SELECT id, name, type, category_id FROM department ORDER BY name";
+            = "SELECT id, name, department_id FROM subdivision ORDER BY name";
     private static final String SELECT_ONE
-            = "SELECT id, name, type, category_id FROM department WHERE id=?";
+            = "SELECT id, name, department_id FROM subdivision WHERE id=?";
     private static final String INSERT
-            = "INSERT INTO department (name, type, category_id) VALUES (?, ?, ?)";
+            = "INSERT INTO subdivision (name, department_id) VALUES (?, ?)";
     private static final String UPDATE
-            = "UPDATE department SET name=?, type=?, category_id=? WHERE id=?";
+            = "UPDATE subdivision SET name=?, department_id=? WHERE id=?";
     private static final String DELETE
-            = "DELETE FROM department WHERE id=?";
+            = "DELETE FROM subdivision WHERE id=?";
 
     private DBConnection con = new DBConnection();
 
@@ -29,32 +29,33 @@ public class DepartmentDAO {
         return con.getConnection();
     }
 
+
     // Получение отдела
-    public Department getDepartment(Long id) throws Exception {
-        Department department = null;
+    public Subdivision getSubdivision(Long id) throws Exception {
+        Subdivision subdivision = null;
         try (Connection con = getConnection()) {
             PreparedStatement pst = con.prepareStatement(SELECT_ONE);
             pst.setLong(1, id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                department = fillDepartment(rs);
+                subdivision = fillSubdivision(rs);
             }
             rs.close();
             pst.close();
         } catch (Exception e) {
             throw new Exception(e);
         }
-        return department;
+        return subdivision;
     }
 
-    // Получение списка отделов
-    public ObservableList<Department> findDepartment() throws Exception {
-        ObservableList<Department> list = FXCollections.observableArrayList();
+    // Получение списка подразделений
+    public ObservableList<Subdivision> findSubdivision() throws Exception {
+        ObservableList<Subdivision> list = FXCollections.observableArrayList();
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(SELECT);
              ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
-                list.add(fillDepartment(rs));
+                list.add(fillSubdivision(rs));
             }
             rs.close();
         } catch (Exception e) {
@@ -63,15 +64,15 @@ public class DepartmentDAO {
         return list;
     }
 
-    private Department fillDepartment(ResultSet rs) throws Exception {
-        Department department = new Department();
-        int categoryId = rs.getInt("category_id");
-        CategoryDAO cd = new CategoryDAO();
+    private Subdivision fillSubdivision(ResultSet rs) throws Exception {
+        Subdivision subdivision = new Subdivision();
+        int departmentId = rs.getInt("department_id");
+        DepartmentDAO dd = new DepartmentDAO();
 
-        department.setId(rs.getLong("id"));
-        department.setName(rs.getString("name"));
-        department.setType(rs.getString("type"));
-        department.setCategory(cd.getCategory((long) categoryId).getName());
-        return department;
+        subdivision.setId(rs.getLong("id"));
+        subdivision.setName(rs.getString("name"));
+        subdivision.setDepartment(dd.getDepartment((long) departmentId).getName());
+        return subdivision;
     }
+
 }

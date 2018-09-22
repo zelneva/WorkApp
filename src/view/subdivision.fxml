@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="500.0" prefWidth="700.0">
+<VBox prefHeight="500.0" prefWidth="700.0"
+      xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2"
+      fx:controller="controllers.SubdivisionController" >
+    <children>
+        <AnchorPane prefHeight="90" prefWidth="699.0" styleClass="component__toolbar">
 
-</AnchorPane>
+            <Button fx:id="update" layoutX="10.0" layoutY="10.0" text="Обновить" contentDisplay="CENTER"/>
+
+        </AnchorPane>
+        <TableView fx:id="tableSubdivision" prefHeight="470.0" prefWidth="699.0" GridPane.rowIndex="1">
+            <columns>
+                <TableColumn fx:id="name" prefWidth="500.0" text="Название подразделения"/>
+                <TableColumn fx:id="department" prefWidth="199.0" text="Название отдела"/>
+            </columns>
+        </TableView>
+    </children>
+</VBox>
+
