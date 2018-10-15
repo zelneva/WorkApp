@@ -65,7 +65,7 @@ public class PositionDAO {
     }
 
     // Удаление должности по ее ID
-    public void deletePosition(Long id) throws Exception {
+    public void deletePosition(Integer id) throws Exception {
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(DELETE)) {
             pst.setLong(1, id);
@@ -76,7 +76,7 @@ public class PositionDAO {
     }
 
     // Получение должности
-    public Position getPosition(Long id) throws Exception {
+    public Position getPosition(Integer id) throws Exception {
         Position position = null;
         try (Connection con = getConnection()) {
             PreparedStatement pst = con.prepareStatement(SELECT_ONE);
@@ -111,7 +111,7 @@ public class PositionDAO {
 
     private Position fillPosition(ResultSet rs) throws SQLException {
         Position position = new Position();
-        position.setId(rs.getLong("id"));
+        position.setId(rs.getInt("id"));
         position.setName(rs.getString("name"));
         return position;
     }

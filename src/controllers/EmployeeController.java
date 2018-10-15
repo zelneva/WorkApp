@@ -32,6 +32,11 @@ public class EmployeeController {
     private TableColumn<Employee, String> department;
     @FXML
     private TableColumn<Employee, String> subdivision;
+    @FXML
+    private TableColumn<Employee, Integer> passport;
+    @FXML
+    private TableColumn<Employee, Integer> total_salary;
+
 
     @FXML
     private Button update;
@@ -45,10 +50,12 @@ public class EmployeeController {
         first_name.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         middle_name.setCellValueFactory(new PropertyValueFactory<>("middleName"));
         salary.setCellValueFactory(new PropertyValueFactory<>("salary"));
-        position.setCellValueFactory(new PropertyValueFactory<>("position"));
-        department.setCellValueFactory(new PropertyValueFactory<>("department"));
+        position.setCellValueFactory(new PropertyValueFactory<>("positionName"));
+        department.setCellValueFactory(new PropertyValueFactory<>("departmentName"));
         percent.setCellValueFactory(new PropertyValueFactory<>("overTimePercent"));
-        subdivision.setCellValueFactory(new PropertyValueFactory<>("subdivision"));
+        subdivision.setCellValueFactory(new PropertyValueFactory<>("subdivisionName"));
+        passport.setCellValueFactory(new PropertyValueFactory<>("passport"));
+        total_salary.setCellValueFactory(new PropertyValueFactory<>("totalSalary"));
 
         update.setOnAction(event -> {
             try {

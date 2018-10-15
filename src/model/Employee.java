@@ -4,21 +4,23 @@ package model;
 //Работники
 public class Employee {
 
-    private Long id;
+    private Integer id;
     private String lastName;
     private String firstName;
     private String middleName;
-    private String position;
+    private Position position;
     private Integer salary;
     private Integer overTimePercent;
-    private String department;
-    private String subdivision;
+    private Department department;
+    private Subdivision subdivision;
+    private Integer passport;
+    private Integer totalSalary;
 
 
     public Employee() {
     }
 
-    public Employee(String lastName, String firstName, String middleName, String position, Integer salary, Integer overTimePercent, String department, String subdivision) {
+    public Employee(String lastName, String firstName, String middleName, Position position, Integer salary, Integer overTimePercent, Department department, Subdivision subdivision, Integer passport) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -27,25 +29,14 @@ public class Employee {
         this.overTimePercent = overTimePercent;
         this.department = department;
         this.subdivision = subdivision;
+        this.passport = passport;
     }
 
-    public Employee(Long id, String lastName, String firstName, String middleName, String position, Integer salary, Integer overTimePercent, String department, String subdivision) {
-        this.id = id;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.position = position;
-        this.salary = salary;
-        this.overTimePercent = overTimePercent;
-        this.department = department;
-        this.subdivision = subdivision;
-    }
-
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -73,11 +64,15 @@ public class Employee {
         this.middleName = middleName;
     }
 
-    public String getPosition() {
+    public Position getPosition() {
         return position;
     }
 
-    public void setPosition(String position) {
+    public Integer getPositionId(){ return position.getId(); }
+
+    public String getPositionName() {return position.getName();}
+
+    public void setPosition(Position position) {
         this.position = position;
     }
 
@@ -97,19 +92,47 @@ public class Employee {
         this.overTimePercent = overTimePercent;
     }
 
-    public String getDepartment() {
+    public Department getDepartment() {
         return department;
     }
 
-    public void setDepartment(String department) {
+    public String getDepartmentName() {
+        return department.getName();
+    }
+
+    public Integer getDepartmenId(){
+        return department.getId();
+    }
+
+    public void setDepartment(Department department) {
         this.department = department;
     }
 
-    public String getSubdivision() {
+    public Subdivision getSubdivision() {
         return subdivision;
     }
 
-    public void setSubdivision(String subdivision) {
+    public String getSubdivisionName(){return subdivision.getName(); }
+
+    public Integer getSubdivisionId(){ return  subdivision.getId(); }
+
+    public void setSubdivision(Subdivision subdivision) {
         this.subdivision = subdivision;
+    }
+
+    public Integer getPassport() {
+        return passport;
+    }
+
+    public void setPassport(Integer passport) {
+        this.passport = passport;
+    }
+
+    public Integer getTotalSalary() {
+        return totalSalary;
+    }
+
+    public void setTotalSalary(Integer totalSalary) {
+        this.totalSalary = totalSalary;
     }
 }

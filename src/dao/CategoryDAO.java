@@ -31,7 +31,7 @@ public class CategoryDAO {
 
 
     // Добавление категории - возвращает ID добавленной категории
-    public Long addCategory(Category category) throws Exception {
+    public void addCategory(Category category) {
         Long iid = -1L;
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(INSERT, new String[]{"id"})) {
@@ -49,7 +49,7 @@ public class CategoryDAO {
         } catch (Exception e) {
             e.getMessage();
         }
-        return iid;
+
     }
 
 
@@ -57,9 +57,9 @@ public class CategoryDAO {
     public void updateCategory(Category category) throws Exception {
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(UPDATE)) {
-            pst.setLong(1, category.getId());
-            pst.setString(2, category.getName());
-            pst.setInt(3, category.getPercent());
+            pst.setLong(3, category.getId());
+            pst.setString(1, category.getName());
+            pst.setInt(2, category.getPercent());
             pst.executeUpdate();
         } catch (Exception e) {
             throw new Exception(e);
@@ -68,7 +68,7 @@ public class CategoryDAO {
 
 
     // Удаление категории по ее ID
-    public void deleteCategory(Long id) throws Exception {
+    public void deleteCategory(Integer id) throws Exception {
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(DELETE)) {
             pst.setLong(1, id);
@@ -80,7 +80,7 @@ public class CategoryDAO {
 
 
     // Получение категории
-    public Category getCategory(Long id) throws Exception {
+    public Category getCategory(Integer id) throws Exception {
         Category category = null;
         try (Connection con = getConnection()) {
             PreparedStatement pst = con.prepareStatement(SELECT_ONE);
@@ -116,7 +116,7 @@ public class CategoryDAO {
 
     private Category fillCategory(ResultSet rs) throws SQLException {
         Category category = new Category();
-        category.setId(rs.getLong("id"));
+        category.setId(rs.getInt("id"));
         category.setName(rs.getString("name"));
         category.setPercent(rs.getInt("percent"));
         return category;

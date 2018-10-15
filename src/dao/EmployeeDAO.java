@@ -14,16 +14,16 @@ import java.sql.SQLException;
 public class EmployeeDAO {
 
     private static final String SELECT
-            = "SELECT id, last_name, first_name, middle_name, position_id, salary, over_time_percent, department_id, subdivision_id FROM employee";
+            = "SELECT id, last_name, first_name, middle_name, position_id, salary, over_time_percent, department_id, subdivision_id, passport FROM employee";
     private static final String SELECT_ONE
             = "SELECT id, last_name, first_name, middle_name, position_id, salary, over_time_percent," +
-            " department_id, subdivision_id FROM employee WHERE id=?";
+            " department_id, subdivision_id, passport FROM employee WHERE id=?";
     private static final String INSERT
             = "INSERT INTO employee (last_name, first_name, middle_name, position_id, salary," +
-            " over_time_percent, department_id, subdivision_id) VALUES (?,?,?,?,?,?,?,?)";
+            " over_time_percent, department_id, subdivision_id, passport) VALUES (?,?,?,?,?,?,?,?)";
     private static final String UPDATE
             = "UPDATE employee SET last_name=?, first_name=?, middle_name=?, position_id=?," +
-            " salary=?, over_time_percent=?, department_id=?, subdivision_id=? WHERE id=?";
+            " salary=?, over_time_percent=?, department_id=?, subdivision_id=?, passport=? WHERE id=?";
     private static final String DELETE
             = "DELETE FROM employee WHERE id=?";
 
@@ -35,7 +35,7 @@ public class EmployeeDAO {
 
 
     // Получение работника
-    public Employee getEmployee(Long id) throws Exception {
+    public Employee getEmployee(Integer id) throws Exception {
         Employee employee = null;
         try (Connection con = getConnection()) {
             PreparedStatement pst = con.prepareStatement(SELECT_ONE);
@@ -74,20 +74,29 @@ public class EmployeeDAO {
         PositionDAO positionDAO = new PositionDAO();
         DepartmentDAO departmentDAO = new DepartmentDAO();
         SubdivisionDAO subdivisionDAO = new SubdivisionDAO();
+        CategoryDAO categoryDAO = new CategoryDAO();
 
         int positionId = rs.getInt("position_id");
         int departmentId = rs.getInt("department_id");
         int subdivisionId = rs.getInt("subdivision_id");
 
-        employee.setId(rs.getLong("id"));
+        int overPercent = rs.getInt("over_time_percent");
+        int salary = rs.getInt("salary");
+
+        employee.setId(rs.getInt("id"));
         employee.setLastName(rs.getString("last_name"));
         employee.setFirstName(rs.getString("first_name"));
         employee.setMiddleName(rs.getString("middle_name"));
-        employee.setOverTimePercent(rs.getInt("over_time_percent"));
-        employee.setSalary(rs.getInt("salary"));
-        employee.setPosition(positionDAO.getPosition((long) positionId).getName());
-        employee.setDepartment(departmentDAO.getDepartment((long) departmentId).getName());
-        employee.setSubdivision(subdivisionDAO.getSubdivision((long) subdivisionId).getName());
+        employee.setOverTimePercent(overPercent);
+        employee.setSalary(salary);
+        employee.setPassport(rs.getInt("passport"));
+        employee.setPosition(positionDAO.getPosition(positionId));
+        employee.setDepartment(departmentDAO.getDepartment(departmentId));
+        employee.setSubdivision(subdivisionDAO.getSubdivision(subdivisionId));
+
+        Double badPercent = Double.parseDouble(employee.getDepartment().getCategory().getPercent().toString());
+        Integer salaryT = (int) (salary * (1 + (badPercent / 100) + (overPercent / 100)));
+        employee.setTotalSalary(salaryT);
 
         return employee;
     }

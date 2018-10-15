@@ -20,11 +20,13 @@
                 <TableColumn fx:id="last_name" prefWidth="150.0" text="Фамилия"/>
                 <TableColumn fx:id="first_name" prefWidth="150.0" text="Имя"/>
                 <TableColumn fx:id="middle_name" prefWidth="150.0" text="Отчество"/>
+                <TableColumn fx:id="passport" prefWidth="100.0" text="Номер паспорта"/>
                 <TableColumn fx:id="position" prefWidth="200.0" text="Должность"/>
-                <TableColumn fx:id="salary" prefWidth="50.0" text="Зарплата"/>
+                <TableColumn fx:id="salary" prefWidth="50.0" text="Оклад"/>
                 <TableColumn fx:id="percent" prefWidth="50.0" text="Процент за переработки"/>
                 <TableColumn fx:id="department" prefWidth="200.0" text="Отдел"/>
                 <TableColumn fx:id="subdivision" prefWidth="300.0" text="Подразделение"/>
+                <TableColumn fx:id="total_salary" prefWidth="150.0" text="Зарплата"/>
             </columns>
         </TableView>
     </children>

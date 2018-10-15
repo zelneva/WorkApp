@@ -31,7 +31,7 @@ public class SubdivisionController {
     private void initialize() throws Exception {
         initData();
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        department.setCellValueFactory(new PropertyValueFactory<>("department"));
+        department.setCellValueFactory(new PropertyValueFactory<>("departmentName"));
 
         update.setOnAction(event -> {
             try {

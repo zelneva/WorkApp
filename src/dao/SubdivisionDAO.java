@@ -31,7 +31,7 @@ public class SubdivisionDAO {
 
 
     // Получение отдела
-    public Subdivision getSubdivision(Long id) throws Exception {
+    public Subdivision getSubdivision(Integer id) throws Exception {
         Subdivision subdivision = null;
         try (Connection con = getConnection()) {
             PreparedStatement pst = con.prepareStatement(SELECT_ONE);
@@ -69,9 +69,9 @@ public class SubdivisionDAO {
         int departmentId = rs.getInt("department_id");
         DepartmentDAO dd = new DepartmentDAO();
 
-        subdivision.setId(rs.getLong("id"));
+        subdivision.setId(rs.getInt("id"));
         subdivision.setName(rs.getString("name"));
-        subdivision.setDepartment(dd.getDepartment((long) departmentId).getName());
+        subdivision.setDepartment(dd.getDepartment(departmentId));
         return subdivision;
     }
 

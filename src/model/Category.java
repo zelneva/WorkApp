@@ -1,7 +1,9 @@
 package model;
 
+import java.util.Random;
+
 public class Category {
-    private Long id;
+    private Integer id;
     private String name;
     private Integer percent;
 
@@ -12,17 +14,17 @@ public class Category {
         this.percent = percent;
     }
 
-    public Category(Long id, String name, Integer percent){
+    public Category(Integer id, String name, Integer percent){
         this.id = id;
         this.name = name;
         this.percent = percent;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

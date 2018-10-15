@@ -10,9 +10,18 @@
       xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2"
       fx:controller="controllers.DepartmentController" >
     <children>
-        <AnchorPane prefHeight="90" prefWidth="699.0" styleClass="component__toolbar">
+        <AnchorPane prefHeight="90" prefWidth="690.0" styleClass="component__toolbar">
 
-            <Button fx:id="update" layoutX="10.0" layoutY="10.0" text="Обновить" contentDisplay="CENTER"/>
+            <TextField fx:id="searchFieldComponent" layoutX="14.0" layoutY="10.0" prefHeight="25.0" prefWidth="250.0" promptText="Поиск" />
+
+            <Button fx:id="add" layoutX="450" layoutY="10" text="Добавить" contentDisplay="CENTER"/>
+
+            <MenuButton layoutX="550.0" layoutY="10.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="129.0" text="Действия">
+                <items>
+                    <MenuItem mnemonicParsing="false"  onAction="#deleteCategory" text="Удалить" />
+                    <MenuItem mnemonicParsing="false" onAction="#editCategory" text="Изменить" />
+                </items>
+            </MenuButton>
 
         </AnchorPane>
         <TableView fx:id="tableDepartment" prefHeight="470.0" prefWidth="699.0" GridPane.rowIndex="1">

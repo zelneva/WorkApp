@@ -3,6 +3,7 @@ package dao;
 import DB.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Category;
 import model.Department;
 
 import java.sql.Connection;
@@ -29,8 +30,36 @@ public class DepartmentDAO {
         return con.getConnection();
     }
 
+
+    // Удаление отдела по ее ID
+    public void deleteDepartment(Integer id) throws Exception {
+        try (Connection con = getConnection();
+             PreparedStatement pst = con.prepareStatement(DELETE)) {
+            pst.setLong(1, id);
+            pst.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
+
+
+    // Редактирование отдела
+    public void updateDepartment(Department department) throws Exception {
+        try (Connection con = getConnection();
+             PreparedStatement pst = con.prepareStatement(UPDATE)) {
+            pst.setLong(4, department.getId());
+            pst.setString(1, department.getName());
+            pst.setString(2, department.getType());
+            pst.setInt(3, department.getCategoryId());
+            pst.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
+
+
     // Получение отдела
-    public Department getDepartment(Long id) throws Exception {
+    public Department getDepartment(Integer id) throws Exception {
         Department department = null;
         try (Connection con = getConnection()) {
             PreparedStatement pst = con.prepareStatement(SELECT_ONE);
@@ -67,11 +96,12 @@ public class DepartmentDAO {
         Department department = new Department();
         int categoryId = rs.getInt("category_id");
         CategoryDAO cd = new CategoryDAO();
+        Category category = cd.getCategory(categoryId);
 
-        department.setId(rs.getLong("id"));
+        department.setId(rs.getInt("id"));
         department.setName(rs.getString("name"));
         department.setType(rs.getString("type"));
-        department.setCategory(cd.getCategory((long) categoryId).getName());
+        department.setCategory(category);
         return department;
     }
 }

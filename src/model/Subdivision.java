@@ -3,28 +3,29 @@ package model;
 //Подразделения
 public class Subdivision {
 
-    private Long id;
+    private Integer id;
     private String name;
-    private String department;
+    private Department department;
 
-    public Subdivision(){}
+    public Subdivision() {
+    }
 
-    public Subdivision(String name, String department){
+    public Subdivision(String name, Department department) {
         this.name = name;
         this.department = department;
     }
 
-    public Subdivision(Long id, String name, String department){
+    public Subdivision(Integer id, String name, Department department) {
         this.id = id;
         this.name = name;
         this.department = department;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -36,11 +37,19 @@ public class Subdivision {
         this.name = name;
     }
 
-    public String getDepartment() {
+    public Department getDepartment() {
         return department;
     }
 
-    public void setDepartment(String department) {
+    public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public Integer getDepartmentId() {
+        return department.getId();
+    }
+
+    public String getDepartmentName() {
+        return department.getName();
     }
 }
