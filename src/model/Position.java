@@ -1,6 +1,6 @@
 package model;
 
-public class Position {
+public class Position implements IModel {
     private Integer id;
     private String name;
 
@@ -29,5 +29,10 @@ public class Position {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

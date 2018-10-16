@@ -2,7 +2,7 @@ package model;
 
 import java.util.Random;
 
-public class Category {
+public class Category implements IModel<Category>{
     private Integer id;
     private String name;
     private Integer percent;
@@ -46,8 +46,6 @@ public class Category {
 
     @Override
     public String toString() {
-        return "Category{" + "id=" + id +
-                ", name=" + name +
-                ", percent=" + percent +'}';
+        return name;
     }
 }

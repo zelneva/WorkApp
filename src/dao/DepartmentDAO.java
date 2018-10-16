@@ -11,10 +11,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DepartmentDAO {
+public class DepartmentDAO implements IDAO<Department> {
 
     private static final String SELECT
-            = "SELECT id, name, type, category_id FROM department ORDER BY name";
+            = "SELECT id, name, type, category_id FROM department ORDER BY id";
     private static final String SELECT_ONE
             = "SELECT id, name, type, category_id FROM department WHERE id=?";
     private static final String INSERT
@@ -31,20 +31,43 @@ public class DepartmentDAO {
     }
 
 
+    // Добавление отдела
+    @Override
+    public void add(Department department) {
+        try (Connection con = getConnection();
+             PreparedStatement pst = con.prepareStatement(INSERT, new String[]{"id"})) {
+            Long id = -1L;
+            pst.setString(1, department.getName());
+            pst.setString(2, department.getType());
+            pst.setInt(3, department.getCategoryId());
+            pst.executeUpdate();
+            ResultSet gk = pst.getGeneratedKeys();
+            if (gk.next()) {
+                id = gk.getLong("id");
+            }
+            gk.close();
+
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
     // Удаление отдела по ее ID
-    public void deleteDepartment(Integer id) throws Exception {
+    @Override
+    public void delete(Integer id)  {
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(DELETE)) {
             pst.setLong(1, id);
             pst.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e);
+            e.printStackTrace();
         }
     }
 
 
     // Редактирование отдела
-    public void updateDepartment(Department department) throws Exception {
+    @Override
+    public void update(Department department) {
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(UPDATE)) {
             pst.setLong(4, department.getId());
@@ -53,13 +76,14 @@ public class DepartmentDAO {
             pst.setInt(3, department.getCategoryId());
             pst.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e);
+            e.printStackTrace();
         }
     }
 
 
     // Получение отдела
-    public Department getDepartment(Integer id) throws Exception {
+    @Override
+    public Department get(Integer id){
         Department department = null;
         try (Connection con = getConnection()) {
             PreparedStatement pst = con.prepareStatement(SELECT_ONE);
@@ -71,13 +95,14 @@ public class DepartmentDAO {
             rs.close();
             pst.close();
         } catch (Exception e) {
-            throw new Exception(e);
+            e.printStackTrace();
         }
         return department;
     }
 
     // Получение списка отделов
-    public ObservableList<Department> findDepartment() throws Exception {
+    @Override
+    public ObservableList<Department> find() {
         ObservableList<Department> list = FXCollections.observableArrayList();
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(SELECT);
@@ -87,7 +112,7 @@ public class DepartmentDAO {
             }
             rs.close();
         } catch (Exception e) {
-            throw new Exception(e);
+            e.printStackTrace();
         }
         return list;
     }
@@ -96,7 +121,7 @@ public class DepartmentDAO {
         Department department = new Department();
         int categoryId = rs.getInt("category_id");
         CategoryDAO cd = new CategoryDAO();
-        Category category = cd.getCategory(categoryId);
+        Category category = cd.get(categoryId);
 
         department.setId(rs.getInt("id"));
         department.setName(rs.getString("name"));

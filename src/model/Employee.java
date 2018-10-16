@@ -2,7 +2,7 @@ package model;
 
 
 //Работники
-public class Employee {
+public class Employee implements IModel {
 
     private Integer id;
     private String lastName;
@@ -68,9 +68,13 @@ public class Employee {
         return position;
     }
 
-    public Integer getPositionId(){ return position.getId(); }
+    public Integer getPositionId() {
+        return position.getId();
+    }
 
-    public String getPositionName() {return position.getName();}
+    public String getPositionName() {
+        return position.getName();
+    }
 
     public void setPosition(Position position) {
         this.position = position;
@@ -100,7 +104,7 @@ public class Employee {
         return department.getName();
     }
 
-    public Integer getDepartmenId(){
+    public Integer getDepartmenId() {
         return department.getId();
     }
 
@@ -109,12 +113,25 @@ public class Employee {
     }
 
     public Subdivision getSubdivision() {
-        return subdivision;
+        if (subdivision != null) {
+            return subdivision;
+        }else return new  Subdivision();
     }
 
-    public String getSubdivisionName(){return subdivision.getName(); }
+    public String getSubdivisionName() {
+        if(subdivision == null){
+            return " ";
+        }else
+        return subdivision.getName();
+    }
 
-    public Integer getSubdivisionId(){ return  subdivision.getId(); }
+    public Integer getSubdivisionId() {
+        if (subdivision == null) {
+            return 0;
+        } else {
+            return subdivision.getId();
+        }
+    }
 
     public void setSubdivision(Subdivision subdivision) {
         this.subdivision = subdivision;

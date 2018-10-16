@@ -1,24 +1,19 @@
 package controllers;
 
 import dao.CategoryDAO;
-import javafx.event.ActionEvent;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.ActionType;
 import model.Category;
+import model.IModel;
 import model.Validate;
 
 import java.io.IOException;
 
-public class CategoryFormController {
+public class CategoryFormController extends FormController {
 
     @FXML
     TextField name;
@@ -30,7 +25,7 @@ public class CategoryFormController {
     Button saveBtn;
 
     private OnChangeListener listener;
-    private Stage stage;
+    private Stage stage = new Stage();
 
     CategoryDAO categoryDAO = new CategoryDAO();
     Category newCategory = new Category();
@@ -38,13 +33,8 @@ public class CategoryFormController {
 
     public CategoryFormController(ActionType actionType) throws IOException {
 
-        loadWindow();
-
-        if (actionType == ActionType.ADD) {
-            stage.setTitle("Добавление категории");
-        } else if (actionType == ActionType.EDIT) {
-            stage.setTitle("Редактирование категории");
-        }
+        loadWindow("../view/category_form.fxml", stage, this);
+        addHeader(actionType, stage);
 
         saveBtn.setOnAction(e -> {
             String categoryName = name.getText();
@@ -55,7 +45,12 @@ public class CategoryFormController {
                 return;
             }
 
+
             if (actionType == ActionType.ADD) {
+                if(unique(new Category(categoryName, Integer.parseInt(categoryPercent)), categoryDAO.find())){
+                    showAlertUnique();
+                    return;
+                }
                 _createCategory(categoryName, categoryPercent);
             }
 
@@ -74,7 +69,7 @@ public class CategoryFormController {
 
     private void _createCategory(String name, String percent) {
         Category category = new Category(name, Integer.parseInt(percent));
-        categoryDAO.addCategory(category);
+        categoryDAO.add(category);
     }
 
 
@@ -83,7 +78,7 @@ public class CategoryFormController {
         newCategory.setPercent(Integer.parseInt(percent));
 
         try {
-            categoryDAO.updateCategory(newCategory);
+            categoryDAO.update(newCategory);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,18 +86,10 @@ public class CategoryFormController {
 
 
     private boolean validate(String name, String percent) {
-        return  Validate.category(name) &&
+        return Validate.category(name) &&
                 Validate.number(percent) &&
                 Integer.parseInt(percent) > 0 &&
                 Integer.parseInt(percent) < 100;
-    }
-
-    private void showAlert(){
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Ошибка");
-        alert.setHeaderText("ВНИМАНИЕ");
-        alert.setContentText("Вы ввели некорректные данные");
-        alert.show();
     }
 
 
@@ -134,18 +121,19 @@ public class CategoryFormController {
         newCategory = category;
     }
 
-
-    private void loadWindow() throws IOException {
-        stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/category_form.fxml"));
-        fxmlLoader.setController(this);
-        Parent root = fxmlLoader.load();
-        stage.setScene(new Scene(root));
+    private void showWindow() {
         stage.show();
     }
 
-
-    private void showWindow() {
-        stage.show();
+    private boolean unique(Category category, ObservableList<Category> list) { //true - если есть такой элемент
+        Boolean flag = false;
+        for (Category c : list) {
+            if (category.getName().equals(c.getName())) {
+                return true;
+            } else {
+                flag = false;
+            }
+        }
+        return flag;
     }
 }

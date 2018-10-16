@@ -2,7 +2,7 @@ package model;
 
 
 //Отделы
-public class Department {
+public class Department implements IModel<Department> {
 
     private Integer id;
     private String name;
@@ -50,11 +50,11 @@ public class Department {
         this.type = type;
     }
 
-    public Category getCategory(){
+    public Category getCategory() {
         return category;
     }
 
-    public Integer getCategoryId(){
+    public Integer getCategoryId() {
         return category.getId();
     }
 
@@ -64,5 +64,10 @@ public class Department {
 
     public void setCategory(Category categoryModel) {
         this.category = categoryModel;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

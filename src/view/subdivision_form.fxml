@@ -22,9 +22,8 @@
             </padding>
 
             <children>
-
-                <Label text="Название категории" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                <TextField fx:id="name" styleClass="name-field" prefHeight="20.0" prefWidth="185.0" promptText="Введите название"/>
+                <Label text="Название подразделения" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <TextField fx:id="name" prefHeight="20.0" prefWidth="108.0" promptText="Введите название"/>
             </children>
 
         </VBox>
@@ -35,8 +34,7 @@
             </padding>
 
             <children>
-                <Label text="Процент" GridPane.columnIndex="1" GridPane.rowIndex="2" layoutY="40"/>
-                <TextField fx:id="percent" prefHeight="25.0" prefWidth="185.0" promptText="Введите процент"/>
+                <ComboBox fx:id="comboBox" promptText="Отдел" prefWidth="300.0" styleClass="combo-box"/>
             </children>
         </VBox>
 

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      prefHeight="600.0" prefWidth="300.0">
+
+    <children>
+        <VBox>
+            <padding>
+                <Insets bottom="20"/>
+            </padding>
+
+            <children>
+
+                <Label text="Фамилия" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <TextField fx:id="last_name" styleClass="name-field" prefHeight="20.0" prefWidth="185.0" promptText="Введите фамилию"/>
+            </children>
+
+        </VBox>
+        <VBox>
+            <padding>
+                <Insets bottom="20"/>
+            </padding>
+
+            <children>
+
+                <Label text="Имя" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <TextField fx:id="first_name" styleClass="name-field" prefHeight="20.0" prefWidth="185.0" promptText="Введите имя"/>
+            </children>
+
+        </VBox>
+        <VBox>
+            <padding>
+                <Insets bottom="20"/>
+            </padding>
+
+            <children>
+
+                <Label text="Отчество" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <TextField fx:id="middle_name" styleClass="name-field" prefHeight="20.0" prefWidth="185.0" promptText="Введите отчество"/>
+            </children>
+
+        </VBox>
+        <VBox>
+            <padding>
+                <Insets bottom="20"/>
+            </padding>
+
+            <children>
+                <ComboBox fx:id="positionBox" promptText="Должность" prefWidth="300.0" styleClass="combo-box"/>
+            </children>
+        </VBox>
+        <VBox>
+            <padding>
+                <Insets bottom="20"/>
+            </padding>
+
+            <children>
+
+                <Label text="Оклад" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <TextField fx:id="salary"  prefHeight="20.0" prefWidth="185.0" promptText="Введите оклад"/>
+            </children>
+
+        </VBox>
+        <VBox>
+            <padding>
+                <Insets bottom="20"/>
+            </padding>
+
+            <children>
+
+                <Label text="Процент переработки" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <TextField fx:id="over_time_percent"  prefHeight="20.0" prefWidth="185.0" promptText="Введите процент переработки"/>
+            </children>
+
+        </VBox>
+        <VBox>
+            <padding>
+                <Insets bottom="20"/>
+            </padding>
+
+            <children>
+                <ComboBox fx:id="departmentBox" promptText="Отдел" prefWidth="300.0" styleClass="combo-box"/>
+            </children>
+        </VBox>
+        <VBox>
+            <padding>
+                <Insets bottom="20"/>
+            </padding>
+
+            <children>
+                <ComboBox fx:id="subdivisionBox" promptText="Подразделение" prefWidth="300.0" styleClass="combo-box"/>
+            </children>
+        </VBox>
+        <VBox>
+            <padding>
+                <Insets bottom="20"/>
+            </padding>
+
+            <children>
+
+                <Label text="Паспорт" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <TextField fx:id="passport"  prefHeight="20.0" prefWidth="185.0" promptText="Введите паспортные данные"/>
+            </children>
+
+        </VBox>
+
+        <Button fx:id="saveBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0"
+                text="Save" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+    </children>
+
+</VBox>

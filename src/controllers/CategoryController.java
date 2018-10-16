@@ -2,24 +2,21 @@ package controllers;
 
 import dao.CategoryDAO;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Category;
+import model.IModel;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
 
-public class CategoryController {
+public class CategoryController extends IController<Category>{
 
     private ObservableList<Category> categoriesData = FXCollections.observableArrayList();
 
@@ -38,56 +35,30 @@ public class CategoryController {
     @FXML
     private TextField searchFieldComponent;
 
-    private CategoryDAO c = new CategoryDAO();
+    private CategoryDAO categoryDAO = new CategoryDAO();
 
     @FXML
-    private void initialize() throws Exception {
+    private void initialize() {
         if (tableCategory == null) return;
 
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         percent.setCellValueFactory(new PropertyValueFactory<>("percent"));
 
-        initData();
+        initData(categoriesData, tableCategory, categoryDAO, searchFieldComponent);
 
-        add.setOnAction(event -> {
+        add.setOnAction((ActionEvent event) -> {
             try {
-                CategoryFormController.addCategory().setOnChangeListener(this::update);
+                CategoryFormController.addCategory()
+                        .setOnChangeListener(() -> update(categoriesData, categoryDAO, tableCategory));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
 
-
-
         searchFieldComponent.textProperty().addListener((observable, oldValue, newValue) -> {
             applyFilter();
         });
     }
-
-    private void setList(ObservableList<Category> list) {
-        tableCategory.getItems().clear();
-        ObservableList<Category> items = FXCollections.observableArrayList(list);
-        tableCategory.setItems(items);
-    }
-
-
-    private void initData() throws Exception {
-        categoriesData.addAll(c.findCategory());
-        setList(categoriesData);
-        searchFieldComponent.setText("");
-    }
-
-
-    private void update() {
-        try {
-            categoriesData.clear();
-            categoriesData.addAll(c.findCategory());
-            setList(categoriesData);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 
     @FXML
     private void applyFilter() {
@@ -95,31 +66,21 @@ public class CategoryController {
         ObservableList<Category> filterList = this.categoriesData
                 .stream().filter(i -> i.getName().toLowerCase().trim().contains(searchWord))
                 .collect(Collectors.collectingAndThen(toList(), FXCollections::observableArrayList));
-        setList(filterList);
+        setList(filterList, tableCategory);
     }
 
 
-    public void deleteCategory(javafx.event.ActionEvent actionEvent) throws Exception {
+    public void deleteCategory(javafx.event.ActionEvent actionEvent) {
         int index = tableCategory.getSelectionModel().getFocusedIndex();
         Integer id = tableCategory.getItems().get(index).getId();
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Удаление категории");
-        alert.setContentText("Вы точно хотите удалить эту категорию?");
-        alert.setHeaderText(null);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.get() == ButtonType.OK) {
-            c.deleteCategory(id);
-        }
-        update();
+        delete(id, tableCategory, categoryDAO, categoriesData);
     }
 
 
     public void editCategory(javafx.event.ActionEvent event) throws Exception {
         int index = tableCategory.getSelectionModel().getFocusedIndex();
         Category category = tableCategory.getItems().get(index);
-        CategoryFormController.editCategory(category).setOnChangeListener(this::update);
+        CategoryFormController.editCategory(category)
+                .setOnChangeListener(() -> update(categoriesData, categoryDAO, tableCategory));
     }
 }

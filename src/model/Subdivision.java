@@ -1,7 +1,7 @@
 package model;
 
 //Подразделения
-public class Subdivision {
+public class Subdivision implements IModel {
 
     private Integer id;
     private String name;
@@ -22,7 +22,10 @@ public class Subdivision {
     }
 
     public Integer getId() {
-        return id;
+        if (this.id != null) {
+            return id;
+        } else return 0;
+
     }
 
     public void setId(Integer id) {
@@ -52,4 +55,10 @@ public class Subdivision {
     public String getDepartmentName() {
         return department.getName();
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
+

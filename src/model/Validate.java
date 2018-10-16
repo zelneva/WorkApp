@@ -35,6 +35,17 @@ public class Validate {
         return flag;
     }
 
+    public static boolean threeWords(String str) {
+        Boolean flag = false;
+        String regex = "^[а-яА-Я]++[ ]++[а-яА-Я]++[ ]++[а-яА-Я]++$"; // 3 слова
+
+        if (!str.equals("") && str != null && str.matches(regex)) {
+            flag = true;
+        }
+
+        return flag;
+    }
+
 
     public static boolean category(String str) {
         Boolean flag = false;

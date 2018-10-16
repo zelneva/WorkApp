@@ -10,14 +10,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.Category;
 import model.Department;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
-public class DepartmentController {
+public class DepartmentController extends  IController<Department>{
 
     private ObservableList<Department> departmentsData = FXCollections.observableArrayList();
 
@@ -42,7 +40,7 @@ public class DepartmentController {
     private DepartmentDAO departmentDAO = new DepartmentDAO();
 
     @FXML
-    private void initialize() throws Exception {
+    private void initialize(){
 
         if (tableDepartment == null) return;
 
@@ -50,11 +48,12 @@ public class DepartmentController {
         type.setCellValueFactory(new PropertyValueFactory<>("type"));
         category.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
 
-        initData();
+        initData(departmentsData, tableDepartment, departmentDAO, searchFieldComponent);
 
         add.setOnAction(event -> {
             try {
-                DepartmentFormController.addDepartment().setOnChangeListener(this::update);
+                DepartmentFormController.addDepartment()
+                        .setOnChangeListener(() -> update(departmentsData, departmentDAO, tableDepartment));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -66,62 +65,27 @@ public class DepartmentController {
 
     }
 
-
-    private void initData() throws Exception {
-        departmentsData.addAll(departmentDAO.findDepartment());
-        setList(departmentsData);
-        searchFieldComponent.setText("");
-    }
-
-
-    private void setList(ObservableList<Department> list) {
-        tableDepartment.getItems().clear();
-        ObservableList<Department> items = FXCollections.observableArrayList(list);
-        tableDepartment.setItems(items);
-    }
-
-
-    private void update() {
-        try {
-            departmentsData.clear();
-            departmentsData.addAll(departmentDAO.findDepartment());
-            setList(departmentsData);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
     @FXML
     private void applyFilter() {
         String searchWord = searchFieldComponent.getText().toLowerCase().trim();
         ObservableList<Department> filterList = this.departmentsData
                 .stream().filter(i -> i.getName().toLowerCase().trim().contains(searchWord))
                 .collect(Collectors.collectingAndThen(toList(), FXCollections::observableArrayList));
-        setList(filterList);
+        setList(filterList, tableDepartment);
     }
 
-    public void deleteCategory(ActionEvent event) throws Exception {
+
+    public void deleteDepartment(ActionEvent event) {
         int index = tableDepartment.getSelectionModel().getFocusedIndex();
         Integer id = tableDepartment.getItems().get(index).getId();
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Удаление категории");
-        alert.setContentText("Вы точно хотите удалить эту категорию?");
-        alert.setHeaderText(null);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.get() == ButtonType.OK) {
-            departmentDAO.deleteDepartment(id);
-        }
-        update();
+        delete(id, tableDepartment, departmentDAO, departmentsData);
     }
 
 
-    public void editCategory(ActionEvent event) {
+    public void editDepartment(ActionEvent event) throws  Exception{
         int index = tableDepartment.getSelectionModel().getFocusedIndex();
         Department department = tableDepartment.getItems().get(index);
-        DepartmentFormController.editDepartment(department).setOnChangeListener(this::update);
+        DepartmentFormController.editDepartment(department)
+                .setOnChangeListener(() -> update(departmentsData, departmentDAO, tableDepartment));
     }
 }

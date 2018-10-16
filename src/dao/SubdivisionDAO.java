@@ -3,6 +3,7 @@ package dao;
 import DB.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Position;
 import model.Subdivision;
 
 import java.sql.Connection;
@@ -10,10 +11,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SubdivisionDAO {
+public class SubdivisionDAO implements  IDAO<Subdivision>{
 
     private static final String SELECT
-            = "SELECT id, name, department_id FROM subdivision ORDER BY name";
+            = "SELECT id, name, department_id FROM subdivision ORDER BY id";
     private static final String SELECT_ONE
             = "SELECT id, name, department_id FROM subdivision WHERE id=?";
     private static final String INSERT
@@ -29,9 +30,55 @@ public class SubdivisionDAO {
         return con.getConnection();
     }
 
+    @Override
+    public void add(Subdivision subdivision) {
+        try (Connection con = getConnection();
+             PreparedStatement pst = con.prepareStatement(INSERT, new String[]{"id"})) {
+            Long id = -1L;
+            pst.setString(1, subdivision.getName());
+            pst.setInt(2, subdivision.getDepartmentId());
+            pst.executeUpdate();
+            ResultSet gk = pst.getGeneratedKeys();
+            if (gk.next()) {
+                id = gk.getLong("id");
+            }
+            gk.close();
+
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
+
+    @Override
+    public void update(Subdivision subdivision) {
+        try (Connection con = getConnection();
+             PreparedStatement pst = con.prepareStatement(UPDATE)) {
+            pst.setLong(3, subdivision.getId());
+            pst.setString(1, subdivision.getName());
+            pst.setInt(2, subdivision.getDepartmentId());
+            pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void delete(Integer id) {
+        try (Connection con = getConnection();
+             PreparedStatement pst = con.prepareStatement(DELETE)) {
+            pst.setLong(1, id);
+            pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     // Получение отдела
-    public Subdivision getSubdivision(Integer id) throws Exception {
+    @Override
+    public Subdivision get(Integer id){
         Subdivision subdivision = null;
         try (Connection con = getConnection()) {
             PreparedStatement pst = con.prepareStatement(SELECT_ONE);
@@ -43,13 +90,14 @@ public class SubdivisionDAO {
             rs.close();
             pst.close();
         } catch (Exception e) {
-            throw new Exception(e);
+           e.printStackTrace();
         }
         return subdivision;
     }
 
     // Получение списка подразделений
-    public ObservableList<Subdivision> findSubdivision() throws Exception {
+    @Override
+    public ObservableList<Subdivision> find() {
         ObservableList<Subdivision> list = FXCollections.observableArrayList();
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(SELECT);
@@ -59,7 +107,7 @@ public class SubdivisionDAO {
             }
             rs.close();
         } catch (Exception e) {
-            throw new Exception(e);
+            e.printStackTrace();
         }
         return list;
     }
@@ -71,7 +119,7 @@ public class SubdivisionDAO {
 
         subdivision.setId(rs.getInt("id"));
         subdivision.setName(rs.getString("name"));
-        subdivision.setDepartment(dd.getDepartment(departmentId));
+        subdivision.setDepartment(dd.get(departmentId));
         return subdivision;
     }
 

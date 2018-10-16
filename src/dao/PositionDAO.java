@@ -10,10 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PositionDAO {
+public class PositionDAO implements IDAO<Position> {
 
     private static final String SELECT
-            = "SELECT id, name FROM position ORDER BY name";
+            = "SELECT id, name FROM position ORDER BY id";
     private static final String SELECT_ONE
             = "SELECT id, name FROM position WHERE id=?";
     private static final String INSERT
@@ -30,9 +30,9 @@ public class PositionDAO {
     }
 
 
-    // Добавление должности - возвращает ID добавленной должности
-    public Long addPosition(Position position) throws Exception {
-        Long iid = -1L;
+    // Добавление должности
+    @Override
+    public void add(Position position) {
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(INSERT, new String[]{"id"})) {
             Long id = -1L;
@@ -42,41 +42,42 @@ public class PositionDAO {
             if (gk.next()) {
                 id = gk.getLong("id");
             }
-            iid = id;
             gk.close();
 
         } catch (Exception e) {
-            e.getMessage();
+            e.printStackTrace();
         }
-        return iid;
     }
 
 
     // Редактирование должности
-    public void updatePosition(Position position) throws Exception {
+    @Override
+    public void update(Position position) {
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(UPDATE)) {
-            pst.setLong(1, position.getId());
-            pst.setString(2, position.getName());
+            pst.setLong(2, position.getId());
+            pst.setString(1, position.getName());
             pst.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e);
+            e.printStackTrace();
         }
     }
 
     // Удаление должности по ее ID
-    public void deletePosition(Integer id) throws Exception {
+    @Override
+    public void delete(Integer id) {
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(DELETE)) {
             pst.setLong(1, id);
             pst.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e);
+            e.printStackTrace();
         }
     }
 
     // Получение должности
-    public Position getPosition(Integer id) throws Exception {
+    @Override
+    public Position get(Integer id) {
         Position position = null;
         try (Connection con = getConnection()) {
             PreparedStatement pst = con.prepareStatement(SELECT_ONE);
@@ -88,13 +89,15 @@ public class PositionDAO {
             rs.close();
             pst.close();
         } catch (Exception e) {
-            throw new Exception(e);
+            e.printStackTrace();
         }
         return position;
     }
 
+
     // Получение списка должностей
-    public ObservableList<Position> findPosition() throws Exception {
+    @Override
+    public ObservableList<Position> find() {
         ObservableList<Position> list = FXCollections.observableArrayList();
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(SELECT);
@@ -104,7 +107,7 @@ public class PositionDAO {
             }
             rs.close();
         } catch (Exception e) {
-            throw new Exception(e);
+            e.printStackTrace();
         }
         return list;
     }

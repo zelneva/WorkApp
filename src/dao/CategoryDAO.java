@@ -4,16 +4,17 @@ import DB.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Category;
+import model.IModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CategoryDAO {
+public class CategoryDAO implements IDAO<Category>{
 
     private static final String SELECT
-            = "SELECT id, name, percent FROM category ORDER BY name, percent";
+            = "SELECT id, name, percent FROM category ORDER BY id";
     private static final String SELECT_ONE
             = "SELECT id, name, percent FROM category WHERE id=?";
     private static final String INSERT
@@ -30,9 +31,9 @@ public class CategoryDAO {
     }
 
 
-    // Добавление категории - возвращает ID добавленной категории
-    public void addCategory(Category category) {
-        Long iid = -1L;
+    // Добавление категории
+    @Override
+    public void add(Category category) {
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(INSERT, new String[]{"id"})) {
             Long id = -1L;
@@ -43,18 +44,17 @@ public class CategoryDAO {
             if (gk.next()) {
                 id = gk.getLong("id");
             }
-            iid = id;
             gk.close();
 
         } catch (Exception e) {
             e.getMessage();
         }
-
     }
 
 
     // Редактирование категории
-    public void updateCategory(Category category) throws Exception {
+    @Override
+    public void update(Category category){
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(UPDATE)) {
             pst.setLong(3, category.getId());
@@ -62,25 +62,27 @@ public class CategoryDAO {
             pst.setInt(2, category.getPercent());
             pst.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e);
+            e.printStackTrace();
         }
     }
 
 
     // Удаление категории по ее ID
-    public void deleteCategory(Integer id) throws Exception {
+    @Override
+    public void delete(Integer id)  {
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(DELETE)) {
             pst.setLong(1, id);
             pst.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e);
+            e.printStackTrace();
         }
     }
 
 
     // Получение категории
-    public Category getCategory(Integer id) throws Exception {
+    @Override
+    public Category get(Integer id) {
         Category category = null;
         try (Connection con = getConnection()) {
             PreparedStatement pst = con.prepareStatement(SELECT_ONE);
@@ -92,14 +94,15 @@ public class CategoryDAO {
             rs.close();
             pst.close();
         } catch (Exception e) {
-            throw new Exception(e);
+            e.printStackTrace();
         }
         return category;
     }
 
 
     // Получение списка категорий
-    public ObservableList<Category> findCategory() throws Exception {
+    @Override
+    public ObservableList<Category> find() {
         ObservableList<Category> list = FXCollections.observableArrayList();
         try (Connection con = getConnection();
              PreparedStatement pst = con.prepareStatement(SELECT);
@@ -109,7 +112,7 @@ public class CategoryDAO {
             }
             rs.close();
         } catch (Exception e) {
-            throw new Exception(e);
+            e.printStackTrace();
         }
         return list;
     }

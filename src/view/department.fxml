@@ -18,8 +18,8 @@
 
             <MenuButton layoutX="550.0" layoutY="10.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="129.0" text="Действия">
                 <items>
-                    <MenuItem mnemonicParsing="false"  onAction="#deleteCategory" text="Удалить" />
-                    <MenuItem mnemonicParsing="false" onAction="#editCategory" text="Изменить" />
+                    <MenuItem mnemonicParsing="false"  onAction="#deleteDepartment" text="Удалить" />
+                    <MenuItem mnemonicParsing="false" onAction="#editDepartment" text="Изменить" />
                 </items>
             </MenuButton>
 
