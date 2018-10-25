@@ -16,7 +16,7 @@ public class Controller implements Initializable {
     Stage openWindow(String path, String title) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(path));
-            Parent root = (Parent)fxmlLoader.load();
+            Parent root = fxmlLoader.load();
             Stage stage = new Stage();
             stage.setTitle(title);
             stage.setScene(new Scene(root));

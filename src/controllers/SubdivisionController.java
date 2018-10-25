@@ -38,7 +38,7 @@ public class SubdivisionController extends IController<Subdivision> {
     private SubdivisionDAO subdivisionDAO = new SubdivisionDAO();
 
     @FXML
-    private void initialize() throws Exception {
+    private void initialize() {
 
         if (tableSubdivision == null) return;
 

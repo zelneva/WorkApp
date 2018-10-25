@@ -35,7 +35,7 @@ public class PositionController extends IController<Position> {
     private PositionDAO positionDAO = new PositionDAO();
 
     @FXML
-    private void initialize() throws Exception {
+    private void initialize() {
         if (tablePosition == null) return;
 
         name.setCellValueFactory(new PropertyValueFactory<>("name"));

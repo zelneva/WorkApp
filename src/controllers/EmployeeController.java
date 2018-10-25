@@ -54,7 +54,7 @@ public class EmployeeController extends IController<Employee> {
     private EmployeeDAO employeeDAO = new EmployeeDAO();
 
     @FXML
-    private void initialize() throws Exception {
+    private void initialize() {
 
         if (tableEmployee == null) return;
 

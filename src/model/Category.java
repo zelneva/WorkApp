@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Random;
-
 public class Category implements IModel<Category>{
     private Integer id;
     private String name;
