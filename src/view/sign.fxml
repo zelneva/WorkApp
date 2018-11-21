@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.text.Font?>
+<Pane prefHeight="200.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.SignController">
+    <Text text="Добро пожаловать!" layoutX ="80.0" layoutY="50.0">
+        <font>
+            <Font name="Arial" size="20" ></Font>
+        </font>
+    </Text>
+
+    <Button fx:id="signin" layoutX="140.0" layoutY="100.0" text="Вход"/>
+
+    <Button fx:id="signup" layoutX="120.0" layoutY="150.0" text="Регистрация"/>
+</Pane>

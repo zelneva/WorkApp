@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.PasswordField?>
+<Pane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
+      >
+    <Text layoutX="120.0" layoutY="50.0" text="Вход">
+        <font>
+            <Font name="Arial" size="20" ></Font>
+        </font>
+    </Text>
+
+    <TextField fx:id="login" layoutX="60.0" layoutY="100.0" promptText="login" />
+    <PasswordField fx:id="password" layoutX="60.0" layoutY="150.0" promptText="password" />
+
+    <Button fx:id="button" layoutX="120.0" layoutY="200.0" text="Вход" />
+</Pane>
